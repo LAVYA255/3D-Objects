@@ -238,7 +238,7 @@ const Scene3DShowcase: React.FC = () => {
 
     const deltaTime = clockRef.current.getDelta();
     const elapsedTime = clockRef.current.elapsedTime;
-    console.log(deltaTime)
+    
     // Update objects
     objectsRef.current.forEach((obj, index) => {
       // Rotation
@@ -255,6 +255,7 @@ const Scene3DShowcase: React.FC = () => {
         const radius = 8;
         obj.mesh.position.x = Math.cos(angle) * radius;
         obj.mesh.position.z = Math.sin(angle) * radius;
+        console.log(deltaTime)
       }
 
       // Color animation
