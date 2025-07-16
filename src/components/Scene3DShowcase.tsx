@@ -53,6 +53,7 @@ const Scene3DShowcase: React.FC = () => {
   });
 
   const [isLoading, setIsLoading] = useState(true);
+  const [controlsOpen, setControlsOpen] = useState(true);
 
   // Initialize Three.js scene
   const initScene = useCallback(() => {
@@ -389,10 +390,47 @@ const Scene3DShowcase: React.FC = () => {
         </div>
       )}
 
+      {/* Controls Toggle Button (visible on mobile and desktop) */}
+      <button
+        className="absolute top-4 left-4 z-20 bg-black bg-opacity-60 text-white rounded-full p-2 shadow-lg focus:outline-none md:hidden"
+        style={{ minWidth: 40, minHeight: 40 }}
+        aria-label={controlsOpen ? "Hide Controls" : "Show Controls"}
+        onClick={() => setControlsOpen((open) => !open)}
+      >
+        {controlsOpen ? (
+          <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        ) : (
+          <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M4 8h16M4 16h16" />
+          </svg>
+        )}
+      </button>
+
       {/* Controls Panel */}
-      <div className="absolute top-4 left-4 bg-black bg-opacity-20 backdrop-blur-lg rounded-xl p-6 text-white min-w-80 z-10">
-        <h3 className="text-xl font-bold mb-4 text-center">3D Scene Controls</h3>
-        
+      <div
+        className={`absolute top-4 left-4 bg-black bg-opacity-20 backdrop-blur-lg rounded-xl p-6 text-white min-w-80 z-10 transition-all duration-300
+          ${controlsOpen ? "block" : "hidden"} md:block`}
+        style={{
+          maxWidth: "90vw",
+          width: "320px",
+          boxSizing: "border-box",
+        }}
+      >
+        <div className="flex justify-between items-center mb-2">
+          <h3 className="text-xl font-bold text-center flex-1">3D Scene Controls</h3>
+          {/* Desktop close button */}
+          <button
+            className="md:hidden ml-2 bg-black bg-opacity-40 rounded-full p-1"
+            aria-label="Close Controls"
+            onClick={() => setControlsOpen(false)}
+          >
+            <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M6 14L14 6M6 6l8 8" />
+            </svg>
+          </button>
+        </div>
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-2">
@@ -408,7 +446,6 @@ const Scene3DShowcase: React.FC = () => {
               className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
             />
           </div>
-          
           <div>
             <label className="block text-sm font-medium mb-2">
               Object Count: {config.objectCount}
@@ -422,7 +459,6 @@ const Scene3DShowcase: React.FC = () => {
               className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
             />
           </div>
-          
           <div>
             <label className="block text-sm font-medium mb-2">
               Animation Speed: {config.animationSpeed.toFixed(1)}
@@ -437,7 +473,6 @@ const Scene3DShowcase: React.FC = () => {
               className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
             />
           </div>
-          
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => handleConfigChange('wireframe', !config.wireframe)}
@@ -449,7 +484,6 @@ const Scene3DShowcase: React.FC = () => {
             >
               {config.wireframe ? 'Solid' : 'Wireframe'}
             </button>
-            
             <button
               onClick={() => handleConfigChange('autoRotate', !config.autoRotate)}
               className={`px-4 py-2 rounded-lg font-medium transition-colors ${
@@ -460,14 +494,12 @@ const Scene3DShowcase: React.FC = () => {
             >
               {config.autoRotate ? 'Stop Orbit' : 'Auto Orbit'}
             </button>
-            
             <button
               onClick={randomizeColors}
               className="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg font-medium transition-colors"
             >
               Random Colors
             </button>
-            
             <button
               onClick={resetCamera}
               className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg font-medium transition-colors"
