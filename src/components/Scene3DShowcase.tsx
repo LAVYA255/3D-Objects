@@ -238,7 +238,7 @@ const Scene3DShowcase: React.FC = () => {
 
     const deltaTime = clockRef.current.getDelta();
     const elapsedTime = clockRef.current.elapsedTime;
-
+    console.log(deltaTime)
     // Update objects
     objectsRef.current.forEach((obj, index) => {
       // Rotation
